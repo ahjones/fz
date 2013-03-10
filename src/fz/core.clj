@@ -31,8 +31,8 @@
 
 (defn handle-get-file
   [id]
-  (if-let [file (@links id)]
-    file
+  (if-let [filename (@links id)]
+    (file filename)
     (generate-upload-page id)))
 
 (def generate-page
@@ -51,7 +51,7 @@
   (let [tempfile (get-in request [:params :blob :tempfile])
         outfile (create-new-file)]
     (copy tempfile outfile)
-    (swap! links assoc id outfile)
+    (swap! links assoc id (.getCanonicalPath outfile))
     (response "OK")))
 
 (defroutes routes
