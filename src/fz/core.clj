@@ -25,7 +25,7 @@
   (html5
    (html/html
     [:body
-     [:form {:action (str "/files/" id) :enctype "multipart/form-data" :method "post"}
+     [:form {:action (str "/files/" id "/") :enctype "multipart/form-data" :method "post"}
       [:input {:type "file" :name "blob"}]
       [:input {:type "submit" :value "Upload"}]]])))
 
@@ -58,7 +58,7 @@
   (GET "/" request (-> (response generate-page) (content-type "text/html; charset=utf-8")))
   (GET "/files/:id/" [id] (response (handle-get-file id)))
   (POST "/generate" request (create-link request))
-  (POST "/files/:id" [id :as request] (upload-file id request)))
+  (POST "/files/:id/" [id :as request] (upload-file id request)))
 
 (def app (-> routes
              handler/site))
